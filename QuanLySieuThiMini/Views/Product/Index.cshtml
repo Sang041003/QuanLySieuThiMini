@@ -1,0 +1,46 @@
+﻿@model List<Product>
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<h2>Danh sách sản phẩm</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại</th>
+            <th>Giá</th>
+            <th>Số lượng tồn kho</th>
+            <th>Vị trí</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.proID</td>
+                <td>@product.proName</td>
+                <td>@product.typeID</td>
+                <td>@product.cost</td>
+                <td>@product.inventory</td>
+                <td>@product.shelfID</td>
+            </tr>
+        }
+    </tbody>
+</table>

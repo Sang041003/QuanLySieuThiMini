@@ -1,0 +1,25 @@
+﻿@model List<Product>
+
+<h2>Danh sách sản phẩm</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Tên sản phẩm</th>
+        <th>ID loại sản phẩm</th>
+        <th>Đơn giá</th>
+        <th>Số lượng tồn kho</th>
+        <th>ID kệ</th>
+    </tr>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.proID</td>
+            <td>@product.proName</td>
+            <td>@product.typeID</td>
+            <td>@product.cost</td>
+            <td>@product.inventory</td>
+            <td>@product.shelfID</td>
+        </tr>
+    }
+</table>
