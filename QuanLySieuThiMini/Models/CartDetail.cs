@@ -5,10 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    public class CartDetail {
+namespace QuanLySieuThiMini.Models
+{
+    public class CartDetail
+    {
 
-        public CartDetail() {
+        public CartDetail()
+        {
         }
 
         public int cartID { get; set; }
@@ -18,7 +21,8 @@ namespace QuanLySieuThiMini.Models{
         public Product product { get; set; }
 
         public int quantity { get; set; }
-        public void updateQuantity() {
+        public void updateQuantity()
+        {
         }
 
     }

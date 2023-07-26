@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    public class Product {
+namespace QuanLySieuThiMini.Models
+{
+    public class Product
+    {
 
-        public Product() {
+        public Product()
+        {
         }
         [Key]
         public int proID { get; set; }
@@ -26,23 +29,28 @@ namespace QuanLySieuThiMini.Models{
 
         public ICollection<BillDetail> bill { get; set; } = new List<BillDetail>();
 
-        public int getProductID() {
+        public int getProductID()
+        {
             return 0;
         }
 
-        public List<Product> getProInfo() {
+        public List<Product> getProInfo()
+        {
             return null;
         }
 
-        public List<Product> getProInfoByType(string typeID) {
+        public List<Product> getProInfoByType(string typeID)
+        {
             return null;
         }
 
-        public List<Product> searchProInfo(string keyword) {
+        public List<Product> searchProInfo(string keyword)
+        {
             return null;
         }
 
-        public int getInventory() {
+        public int getInventory()
+        {
             return 0;
         }
 

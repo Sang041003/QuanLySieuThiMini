@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    public class Guest {
+namespace QuanLySieuThiMini.Models
+{
+    public class Guest
+    {
 
-        public Guest() {
+        public Guest()
+        {
         }
 
         public string guestName { get; set; }
@@ -17,7 +20,8 @@ namespace QuanLySieuThiMini.Models{
 
         public ICollection<Bill> bill { get; set; } = new List<Bill>();
 
-        public List<Guest> getGuestInfo() {
+        public List<Guest> getGuestInfo()
+        {
             return null;
         }
 

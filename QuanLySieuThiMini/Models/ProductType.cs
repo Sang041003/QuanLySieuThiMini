@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    public class ProductType {
+namespace QuanLySieuThiMini.Models
+{
+    public class ProductType
+    {
 
-        public ProductType() {
+        public ProductType()
+        {
         }
         [Key]
         public string typeID { get; set; }
@@ -17,11 +20,13 @@ namespace QuanLySieuThiMini.Models{
 
         public ICollection<Product> products { get; set; } = new List<Product>();
 
-        public void getProType() {
+        public void getProType()
+        {
 
         }
 
-        public void addProType(ProductType type) {
+        public void addProType(ProductType type)
+        {
 
         }
 

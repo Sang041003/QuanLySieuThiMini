@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    public class User {
+namespace QuanLySieuThiMini.Models
+{
+    public class User
+    {
 
-        public User() {
+        public User()
+        {
         }
 
         public int userID { get; set; }
@@ -18,11 +21,13 @@ namespace QuanLySieuThiMini.Models{
 
         public string role { get; set; }
 
-        public void changePassword(string newPass) {
+        public void changePassword(string newPass)
+        {
 
         }
 
-        public bool login(string email, string password) {
+        public bool login(string email, string password)
+        {
 
             return false;
         }

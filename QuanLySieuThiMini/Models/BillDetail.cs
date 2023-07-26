@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    [PrimaryKey(nameof(billID),nameof(proID))]
-    public class BillDetail {
+namespace QuanLySieuThiMini.Models
+{
+    [PrimaryKey(nameof(billID), nameof(proID))]
+    public class BillDetail
+    {
 
-        public BillDetail() {
+        public BillDetail()
+        {
         }
 
         public string billID { get; set; }
@@ -22,7 +25,8 @@ namespace QuanLySieuThiMini.Models{
 
         public int quantity { get; set; }
 
-        public int totalCost() {
+        public int totalCost()
+        {
             return 0;
         }
 

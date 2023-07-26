@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    public class Employee {
+namespace QuanLySieuThiMini.Models
+{
+    public class Employee
+    {
 
-        public Employee() {
+        public Employee()
+        {
         }
         [Key]
         public int empID { get; set; }
@@ -23,14 +26,17 @@ namespace QuanLySieuThiMini.Models{
 
         public string empPhone { get; set; }
 
-        public List<Employee> getEmployeeInfo() {
+        public List<Employee> getEmployeeInfo()
+        {
             return null;
         }
 
-        public void addEmployee(Employee emp) {
+        public void addEmployee(Employee emp)
+        {
         }
 
-        public bool removeEmployee(int empID) {
+        public bool removeEmployee(int empID)
+        {
             return false;
         }
 

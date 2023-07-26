@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace QuanLySieuThiMini.Models{
-    public class Bill {
+namespace QuanLySieuThiMini.Models
+{
+    public class Bill
+    {
 
-        public Bill() {
+        public Bill()
+        {
         }
         [Key]
         public string billID { get; set; }
@@ -25,10 +28,12 @@ namespace QuanLySieuThiMini.Models{
 
         public ICollection<BillDetail> BillDetail { get; set; } = new List<BillDetail>();
 
-        public void saveBill() {
+        public void saveBill()
+        {
         }
 
-        public void printBill() {
+        public void printBill()
+        {
         }
 
     }
