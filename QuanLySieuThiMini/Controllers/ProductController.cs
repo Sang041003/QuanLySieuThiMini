@@ -16,7 +16,8 @@ namespace QuanLySieuThiMini.Controllers
         }
         public IActionResult Index(int page = 1)
         {
-            const int itemsPerPage = 5;
+            ViewBag.Types = dbHelper.GetProductTypes();
+            const int itemsPerPage = 8;
             List<ProductVM> productVMs = dbHelper.GetProductVM();
 
             int totalItems = productVMs.Count;
@@ -27,6 +28,21 @@ namespace QuanLySieuThiMini.Controllers
             ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
             ViewData["CurrentPage"] = page;
 
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult Index(string? searchString, string? typeID, int page = 1)
+        {
+            ViewBag.Types = dbHelper.GetProductTypes();
+            List<ProductVM> productVMs = dbHelper.SearchProductVM(searchString, typeID);
+
+            const int itemsPerPage = 8;
+            int totalItems = productVMs.Count;
+            int skipItems = (page - 1) * itemsPerPage;
+
+            List<ProductVM> vm = productVMs.Skip(skipItems).Take(itemsPerPage).ToList();
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+            ViewData["CurrentPage"] = page;
             return View(vm);
         }
         public IActionResult Detail(int id) {

@@ -22,223 +22,223 @@ namespace QuanLySieuThiMini.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Bill", b =>
-                {
-                    b.Property<string>("billID")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("billID")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("date")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("empID")
-                        .HasColumnType("int");
+                b.Property<int>("empID")
+                    .HasColumnType("int");
 
-                    b.Property<int>("employeeempID")
-                        .HasColumnType("int");
+                b.Property<int>("employeeempID")
+                    .HasColumnType("int");
 
-                    b.Property<string>("guestPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("guestPhone")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("guestPhone1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("guestPhone1")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("totalPrice")
-                        .HasColumnType("int");
+                b.Property<int>("totalPrice")
+                    .HasColumnType("int");
 
-                    b.HasKey("billID");
+                b.HasKey("billID");
 
-                    b.HasIndex("employeeempID");
+                b.HasIndex("employeeempID");
 
-                    b.HasIndex("guestPhone1");
+                b.HasIndex("guestPhone1");
 
-                    b.ToTable("Bills");
-                });
+                b.ToTable("Bills");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.BillDetail", b =>
-                {
-                    b.Property<string>("billID")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("billID")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("proID")
-                        .HasColumnType("int");
+                b.Property<int>("proID")
+                    .HasColumnType("int");
 
-                    b.Property<string>("billName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("billName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("quantity")
-                        .HasColumnType("int");
+                b.Property<int>("quantity")
+                    .HasColumnType("int");
 
-                    b.HasKey("billID", "proID");
+                b.HasKey("billID", "proID");
 
-                    b.HasIndex("proID");
+                b.HasIndex("proID");
 
-                    b.ToTable("BillDetails");
-                });
+                b.ToTable("BillDetails");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Employee", b =>
-                {
-                    b.Property<int>("empID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("empID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("empID"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("empID"));
 
-                    b.Property<int>("age")
-                        .HasColumnType("int");
+                b.Property<int>("age")
+                    .HasColumnType("int");
 
-                    b.Property<string>("empAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("empAddress")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("empName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("empName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("empPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("empPhone")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("gender")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("empID");
+                b.HasKey("empID");
 
-                    b.ToTable("Employees");
-                });
+                b.ToTable("Employees");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Guest", b =>
-                {
-                    b.Property<string>("guestPhone")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("guestPhone")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("guestName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("guestName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("guestPhone");
+                b.HasKey("guestPhone");
 
-                    b.ToTable("Guests");
-                });
+                b.ToTable("Guests");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Product", b =>
-                {
-                    b.Property<int>("proID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("proID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("proID"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("proID"));
 
-                    b.Property<int>("cost")
-                        .HasColumnType("int");
+                b.Property<int>("cost")
+                    .HasColumnType("int");
 
-                    b.Property<int>("inventory")
-                        .HasColumnType("int");
+                b.Property<int>("inventory")
+                    .HasColumnType("int");
 
-                    b.Property<string>("location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("location")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("proName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("proName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("typeID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("typeID")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("proID");
+                b.HasKey("proID");
 
-                    b.HasIndex("typeID");
+                b.HasIndex("typeID");
 
-                    b.ToTable("Products");
-                });
+                b.ToTable("Products");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.ProductType", b =>
-                {
-                    b.Property<string>("typeID")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("typeID")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("typeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("typeName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("typeID");
+                b.HasKey("typeID");
 
-                    b.ToTable("ProductTypes");
-                });
+                b.ToTable("ProductTypes");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Bill", b =>
-                {
-                    b.HasOne("QuanLySieuThiMini.Models.Employee", "employee")
-                        .WithMany()
-                        .HasForeignKey("employeeempID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("QuanLySieuThiMini.Models.Employee", "employee")
+                    .WithMany()
+                    .HasForeignKey("employeeempID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("QuanLySieuThiMini.Models.Guest", "guest")
-                        .WithMany("bill")
-                        .HasForeignKey("guestPhone1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("QuanLySieuThiMini.Models.Guest", "guest")
+                    .WithMany("bill")
+                    .HasForeignKey("guestPhone1")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("employee");
+                b.Navigation("employee");
 
-                    b.Navigation("guest");
-                });
+                b.Navigation("guest");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.BillDetail", b =>
-                {
-                    b.HasOne("QuanLySieuThiMini.Models.Bill", "bill")
-                        .WithMany("BillDetail")
-                        .HasForeignKey("billID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("QuanLySieuThiMini.Models.Bill", "bill")
+                    .WithMany("BillDetail")
+                    .HasForeignKey("billID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("QuanLySieuThiMini.Models.Product", "product")
-                        .WithMany("bill")
-                        .HasForeignKey("proID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("QuanLySieuThiMini.Models.Product", "product")
+                    .WithMany("bill")
+                    .HasForeignKey("proID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("bill");
+                b.Navigation("bill");
 
-                    b.Navigation("product");
-                });
+                b.Navigation("product");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Product", b =>
-                {
-                    b.HasOne("QuanLySieuThiMini.Models.ProductType", "type")
-                        .WithMany("products")
-                        .HasForeignKey("typeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("QuanLySieuThiMini.Models.ProductType", "type")
+                    .WithMany("products")
+                    .HasForeignKey("typeID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("type");
-                });
+                b.Navigation("type");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Bill", b =>
-                {
-                    b.Navigation("BillDetail");
-                });
+            {
+                b.Navigation("BillDetail");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Guest", b =>
-                {
-                    b.Navigation("bill");
-                });
+            {
+                b.Navigation("bill");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Product", b =>
-                {
-                    b.Navigation("bill");
-                });
+            {
+                b.Navigation("bill");
+            });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.ProductType", b =>
-                {
-                    b.Navigation("products");
-                });
+            {
+                b.Navigation("products");
+            });
 #pragma warning restore 612, 618
         }
     }

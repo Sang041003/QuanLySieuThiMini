@@ -1,6 +1,6 @@
 ﻿@model List<ProductVM>
 @{
-    var itemsPerPage = 5;
+    var itemsPerPage = 8;
     var totalPages = (int)Math.Ceiling(Model.Count / (double)itemsPerPage);
 }
 <head>
@@ -166,13 +166,26 @@
 <div class="table-responsive">
     <div class="table-wrapper">
         <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8"><h2>Product <b>List</b></h2></div>
-                <div class="col-sm-4">
-                    <div class="search-box">
-                        <i class="material-icons"></i>
-                        <input type="text" class="form-control" placeholder="Search…">
-                    </div>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2>Product <b>List</b></h2>
+                </div>
+                <div class="col-md-6">
+                    <form method="post" asp-action="Index" asp-controller="Product" class="form-inline">
+                        <div class="form-group mr-2">
+                            <input type="text" class="form-control" id="searchInput" name="searchString" placeholder="Search by Name or ID">
+                        </div>
+                        <div class="form-group mr-2">
+                            <select id="typeID" name="typeID" class="form-control">
+                                <option value="">All Categories</option>
+                                @foreach (var type in ViewBag.Types)
+                                {
+                                    <option value="@type.typeID">@type.typeName</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -210,10 +223,10 @@
                 @for (int i = 1; i <= (int)ViewData["TotalPages"]; i++)
                 {
                     <li class="page-item @(i == (int)ViewData["CurrentPage"] ? "active" : "")">
-                        <a href="@Url.Action("Index", "Product", new { page = i })" class="page-link">@i</a>
+                        <a href="@Url.Action("Index", "Product", new { page = i, type = Context.Request.Query["typeID"] })" class="page-link">@i</a>
                     </li>
                 }
-            </ul>
+                </ul>
             <a asp-action="Create" asp-controller="Product" class="btn btn-primary">Add</a>
         </div>
     </div>

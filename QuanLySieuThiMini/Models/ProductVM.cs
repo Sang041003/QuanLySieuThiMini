@@ -3,7 +3,7 @@
     public class ProductVM
     {
         public int proID { get; set; }
-
+        
         public string proName { get; set; }
         public string typeID { get; set; }
         public Type? type { get; set; }

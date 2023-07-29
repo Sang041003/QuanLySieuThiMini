@@ -2,7 +2,7 @@
 
 namespace QuanLySieuThiMini.Models
 {
-    public class ProductDBContext:DbContext
+    public class ProductDBContext : DbContext
     {
         public ProductDBContext(DbContextOptions options) : base(options)
         {
