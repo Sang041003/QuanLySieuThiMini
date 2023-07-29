@@ -203,18 +203,18 @@
             <tbody>
                 @for (int i = 0; i < Model.Count; i++)
                 {
-                       <tr>
-                       <td>@Model[i].proID</td>
-                       <td>@Model[i].proName</td>
-                       <td>@Model[i].typeName</td>
-                       <td>@Model[i].cost</td>
-                       <td>@Model[i].inventory</td>
-                       <td>
+                    <tr>
+                        <td>@Model[i].proID</td>
+                        <td>@Model[i].proName</td>
+                        <td>@Model[i].typeName</td>
+                        <td>@Model[i].cost</td>
+                        <td>@Model[i].inventory</td>
+                        <td>
                             <a asp-action="Detail" asp-controller="Product" asp-route-id="@Model[i].proID" class="view"><i class="material-icons"></i></a>
                             <a asp-action="Update" asp-controller="Product" asp-route-id="@Model[i].proID" class="edit"><i class="material-icons"></i></a>
                             <a asp-action="Delete" asp-controller="Product" asp-route-id="@Model[i].proID" class="delete"><i class="material-icons"></i></a>
-                       </td>
-                       </tr>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -226,7 +226,7 @@
                         <a href="@Url.Action("Index", "Product", new { page = i, type = Context.Request.Query["typeID"] })" class="page-link">@i</a>
                     </li>
                 }
-                </ul>
+            </ul>
             <a asp-action="Create" asp-controller="Product" class="btn btn-primary">Add</a>
         </div>
     </div>

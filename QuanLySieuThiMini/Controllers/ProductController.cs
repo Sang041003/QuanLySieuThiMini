@@ -45,7 +45,8 @@ namespace QuanLySieuThiMini.Controllers
             ViewData["CurrentPage"] = page;
             return View(vm);
         }
-        public IActionResult Detail(int id) {
+        public IActionResult Detail(int id)
+        {
             Product product = dbHelper.DetailProduct(id);
             ViewBag.Types = dbHelper.GetProductTypes();
             ProductVM vm = new ProductVM()

@@ -39,8 +39,30 @@ namespace QuanLySieuThiMini.Models
             dbContext.Products.Remove(pro);
             dbContext.SaveChanges();
         }
-       
+        public List<ProductVM> GetProductVM()
+        {
+            List<ProductVM> productVMs = new List<ProductVM>();
 
+            var result = dbContext.Products.Join(dbContext.ProductTypes,
+                            p => p.typeID,
+                            t => t.typeID,
+                            (p, t) => new { product = p, type = t });
+
+            foreach (var item in result)
+            {
+                productVMs.Add(new ProductVM()
+                {
+                    proID = item.product.proID,
+                    proName = item.product.proName,
+                    typeID = item.product.typeID,
+                    typeName = item.type.typeName,
+                    inventory = item.product.inventory,
+                    cost = item.product.cost
+                });
+            }
+
+            return productVMs;
+        }
 
         public List<ProductVM> GetProductVMByCategory(string typeID)
         {
