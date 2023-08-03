@@ -11,23 +11,6 @@ namespace QuanLySieuThiMini.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    empID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    empName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    age = table.Column<int>(type: "int", nullable: false),
-                    empAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    empPhone = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.empID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Guests",
                 columns: table => new
                 {
@@ -37,6 +20,18 @@ namespace QuanLySieuThiMini.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Guests", x => x.guestPhone);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Positions",
+                columns: table => new
+                {
+                    posID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    posName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Positions", x => x.posID);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,31 +47,41 @@ namespace QuanLySieuThiMini.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bills",
+                name: "Shelves",
                 columns: table => new
                 {
-                    billID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    date = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    totalPrice = table.Column<int>(type: "int", nullable: false),
-                    guestPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    guestPhone1 = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    empID = table.Column<int>(type: "int", nullable: false),
-                    employeeempID = table.Column<int>(type: "int", nullable: false)
+                    shelfID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    shelfLocation = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bills", x => x.billID);
+                    table.PrimaryKey("PK_Shelves", x => x.shelfID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    empID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    empName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    age = table.Column<int>(type: "int", nullable: false),
+                    empAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    empPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    posID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.empID);
                     table.ForeignKey(
-                        name: "FK_Bills_Employees_employeeempID",
-                        column: x => x.employeeempID,
-                        principalTable: "Employees",
-                        principalColumn: "empID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bills_Guests_guestPhone1",
-                        column: x => x.guestPhone1,
-                        principalTable: "Guests",
-                        principalColumn: "guestPhone",
+                        name: "FK_Employees_Positions_posID",
+                        column: x => x.posID,
+                        principalTable: "Positions",
+                        principalColumn: "posID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -90,7 +95,7 @@ namespace QuanLySieuThiMini.Migrations
                     typeID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     cost = table.Column<int>(type: "int", nullable: false),
                     inventory = table.Column<int>(type: "int", nullable: false),
-                    location = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    shelfID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,6 +105,39 @@ namespace QuanLySieuThiMini.Migrations
                         column: x => x.typeID,
                         principalTable: "ProductTypes",
                         principalColumn: "typeID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Shelves_shelfID",
+                        column: x => x.shelfID,
+                        principalTable: "Shelves",
+                        principalColumn: "shelfID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bills",
+                columns: table => new
+                {
+                    billID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    totalPrice = table.Column<int>(type: "int", nullable: false),
+                    guestPhone = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    empID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bills", x => x.billID);
+                    table.ForeignKey(
+                        name: "FK_Bills_Employees_empID",
+                        column: x => x.empID,
+                        principalTable: "Employees",
+                        principalColumn: "empID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bills_Guests_guestPhone",
+                        column: x => x.guestPhone,
+                        principalTable: "Guests",
+                        principalColumn: "guestPhone",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -135,14 +173,24 @@ namespace QuanLySieuThiMini.Migrations
                 column: "proID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bills_employeeempID",
+                name: "IX_Bills_empID",
                 table: "Bills",
-                column: "employeeempID");
+                column: "empID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bills_guestPhone1",
+                name: "IX_Bills_guestPhone",
                 table: "Bills",
-                column: "guestPhone1");
+                column: "guestPhone");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_posID",
+                table: "Employees",
+                column: "posID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_shelfID",
+                table: "Products",
+                column: "shelfID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_typeID",
@@ -170,6 +218,12 @@ namespace QuanLySieuThiMini.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductTypes");
+
+            migrationBuilder.DropTable(
+                name: "Shelves");
+
+            migrationBuilder.DropTable(
+                name: "Positions");
         }
     }
 }

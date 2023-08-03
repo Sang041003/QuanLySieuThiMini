@@ -10,6 +10,6 @@ namespace QuanLySieuThiMini.Models
 
         public string shelfLocation { get; set; }
 
-        public ICollection<Product> products { get; set; }
+        public ICollection<Product> products { get; set; } = new List<Product>();
     }
 }

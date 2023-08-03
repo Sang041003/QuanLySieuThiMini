@@ -11,8 +11,8 @@ using QuanLySieuThiMini.Models;
 namespace QuanLySieuThiMini.Migrations
 {
     [DbContext(typeof(ProductDBContext))]
-    [Migration("20230719040406_Init")]
-    partial class Init
+    [Migration("20230731044234_Alter1")]
+    partial class Alter1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,14 +36,7 @@ namespace QuanLySieuThiMini.Migrations
                     b.Property<int>("empID")
                         .HasColumnType("int");
 
-                    b.Property<int>("employeeempID")
-                        .HasColumnType("int");
-
                     b.Property<string>("guestPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("guestPhone1")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -52,9 +45,9 @@ namespace QuanLySieuThiMini.Migrations
 
                     b.HasKey("billID");
 
-                    b.HasIndex("employeeempID");
+                    b.HasIndex("empID");
 
-                    b.HasIndex("guestPhone1");
+                    b.HasIndex("guestPhone");
 
                     b.ToTable("Bills");
                 });
@@ -92,6 +85,9 @@ namespace QuanLySieuThiMini.Migrations
                     b.Property<int>("age")
                         .HasColumnType("int");
 
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("empAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -108,7 +104,16 @@ namespace QuanLySieuThiMini.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("posID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("empID");
+
+                    b.HasIndex("posID");
 
                     b.ToTable("Employees");
                 });
@@ -127,6 +132,20 @@ namespace QuanLySieuThiMini.Migrations
                     b.ToTable("Guests");
                 });
 
+            modelBuilder.Entity("QuanLySieuThiMini.Models.Position", b =>
+                {
+                    b.Property<string>("posID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("posName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("posID");
+
+                    b.ToTable("Positions");
+                });
+
             modelBuilder.Entity("QuanLySieuThiMini.Models.Product", b =>
                 {
                     b.Property<int>("proID")
@@ -141,19 +160,20 @@ namespace QuanLySieuThiMini.Migrations
                     b.Property<int>("inventory")
                         .HasColumnType("int");
 
-                    b.Property<string>("location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("proName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("shelfID")
+                        .HasColumnType("int");
 
                     b.Property<string>("typeID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("proID");
+
+                    b.HasIndex("shelfID");
 
                     b.HasIndex("typeID");
 
@@ -174,29 +194,46 @@ namespace QuanLySieuThiMini.Migrations
                     b.ToTable("ProductTypes");
                 });
 
+            modelBuilder.Entity("QuanLySieuThiMini.Models.Shelf", b =>
+                {
+                    b.Property<int>("shelfID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("shelfID"));
+
+                    b.Property<string>("shelfLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("shelfID");
+
+                    b.ToTable("Shelves");
+                });
+
             modelBuilder.Entity("QuanLySieuThiMini.Models.Bill", b =>
                 {
-                    b.HasOne("QuanLySieuThiMini.Models.Employee", "employee")
+                    b.HasOne("QuanLySieuThiMini.Models.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("employeeempID")
+                        .HasForeignKey("empID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuanLySieuThiMini.Models.Guest", "guest")
-                        .WithMany("bill")
-                        .HasForeignKey("guestPhone1")
+                    b.HasOne("QuanLySieuThiMini.Models.Guest", "Guest")
+                        .WithMany("Bills")
+                        .HasForeignKey("guestPhone")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("employee");
+                    b.Navigation("Employee");
 
-                    b.Navigation("guest");
+                    b.Navigation("Guest");
                 });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.BillDetail", b =>
                 {
                     b.HasOne("QuanLySieuThiMini.Models.Bill", "bill")
-                        .WithMany("BillDetail")
+                        .WithMany("BillDetails")
                         .HasForeignKey("billID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -212,8 +249,25 @@ namespace QuanLySieuThiMini.Migrations
                     b.Navigation("product");
                 });
 
+            modelBuilder.Entity("QuanLySieuThiMini.Models.Employee", b =>
+                {
+                    b.HasOne("QuanLySieuThiMini.Models.Position", "Position")
+                        .WithMany("employees")
+                        .HasForeignKey("posID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Position");
+                });
+
             modelBuilder.Entity("QuanLySieuThiMini.Models.Product", b =>
                 {
+                    b.HasOne("QuanLySieuThiMini.Models.Shelf", null)
+                        .WithMany("products")
+                        .HasForeignKey("shelfID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("QuanLySieuThiMini.Models.ProductType", "type")
                         .WithMany("products")
                         .HasForeignKey("typeID")
@@ -225,12 +279,17 @@ namespace QuanLySieuThiMini.Migrations
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Bill", b =>
                 {
-                    b.Navigation("BillDetail");
+                    b.Navigation("BillDetails");
                 });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Guest", b =>
                 {
-                    b.Navigation("bill");
+                    b.Navigation("Bills");
+                });
+
+            modelBuilder.Entity("QuanLySieuThiMini.Models.Position", b =>
+                {
+                    b.Navigation("employees");
                 });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Product", b =>
@@ -239,6 +298,11 @@ namespace QuanLySieuThiMini.Migrations
                 });
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.ProductType", b =>
+                {
+                    b.Navigation("products");
+                });
+
+            modelBuilder.Entity("QuanLySieuThiMini.Models.Shelf", b =>
                 {
                     b.Navigation("products");
                 });

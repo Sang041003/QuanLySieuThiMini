@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLySieuThiMini.Models
 {
-    public class ProductDBContext : DbContext
+    public class ProductDBContext : IdentityDbContext<IdentityUser>
     {
-        public ProductDBContext(DbContextOptions options) : base(options)
+        public ProductDBContext(DbContextOptions<ProductDBContext> options) : base(options)
         {
 
         }
@@ -15,6 +17,8 @@ namespace QuanLySieuThiMini.Models
         public DbSet<BillDetail> BillDetails { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Guest> Guests { get; set; }
+        public DbSet<Shelf> Shelves { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
     }
 }

@@ -1,7 +1,9 @@
 
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -9,7 +11,6 @@ namespace QuanLySieuThiMini.Models
 {
     public class Employee
     {
-
         public Employee()
         {
         }
@@ -26,19 +27,14 @@ namespace QuanLySieuThiMini.Models
 
         public string empPhone { get; set; }
 
-        public List<Employee> getEmployeeInfo()
-        {
-            return null;
-        }
+        public string? email { get; set; }
 
-        public void addEmployee(Employee emp)
-        {
-        }
+        public string? password { get; set; }
 
-        public bool removeEmployee(int empID)
-        {
-            return false;
-        }
+
+        [ForeignKey("Position")]
+        public string posID { get; set; }
+        public Position Position { get; set; }
 
     }
 }

@@ -1,0 +1,47 @@
+﻿@model QuanLySieuThiMini.Models.Cart
+
+<h2>Shopping Cart</h2>
+
+@if (Model.cartDetails.Count == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartItem in Model.cartDetails)
+            {
+                <tr>
+                    <td>@cartItem.proName</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="UpdateQuantity" method="post">
+                            <input type="hidden" name="productId" value="@cartItem.proID" />
+                            <input type="number" name="newQuantity" value="@cartItem.quantity" />
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>@cartItem.cost</td>
+                    <td>@(cartItem.quantity * cartItem.cost)</td>
+                    <td>
+                        <a asp-action="RemoveFromCart" asp-route-productID="@cartItem.proID">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <p>Total: @Model.cartDetails.Sum(cd => cd.quantity * cd.cost)</p>
+        <a asp-action="Checkout">Checkout</a>
+    </div>
+}

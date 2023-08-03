@@ -18,17 +18,13 @@ namespace QuanLySieuThiMini.Models
         public string billID { get; set; }
         public Bill bill { get; set; }
 
-        public string billName { get; set; }
+        public string proName { get; set; }
+        public int cost { get; set; }
 
         public int proID { get; set; }
         public Product product { get; set; }
 
         public int quantity { get; set; }
-
-        public int totalCost()
-        {
-            return 0;
-        }
 
     }
 }

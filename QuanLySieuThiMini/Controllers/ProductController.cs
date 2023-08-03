@@ -17,7 +17,7 @@ namespace QuanLySieuThiMini.Controllers
         public IActionResult Index(int page = 1)
         {
             ViewBag.Types = dbHelper.GetProductTypes();
-            const int itemsPerPage = 8;
+            const int itemsPerPage = 5;
             List<ProductVM> productVMs = dbHelper.GetProductVM();
 
             int totalItems = productVMs.Count;
@@ -49,6 +49,7 @@ namespace QuanLySieuThiMini.Controllers
         {
             Product product = dbHelper.DetailProduct(id);
             ViewBag.Types = dbHelper.GetProductTypes();
+            ViewBag.Shelves = dbHelper.GetShelves();
             ProductVM vm = new ProductVM()
             {
                 proID = product.proID,
@@ -63,15 +64,17 @@ namespace QuanLySieuThiMini.Controllers
         public IActionResult Create()
         {
             ViewBag.Types = dbHelper.GetProductTypes();
+            ViewBag.Shelves = dbHelper.GetShelves();
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(ProductVM model)
         {
+            ViewBag.Types = dbHelper.GetProductTypes();
+            ViewBag.Shelves = dbHelper.GetShelves();
             if (ModelState.IsValid)
             {
-                ViewBag.Types = dbHelper.GetProductTypes();
                 Product pro = new Product()
                 {
                     proName = model.proName,
@@ -88,6 +91,7 @@ namespace QuanLySieuThiMini.Controllers
         public IActionResult Update(int id)
         {
             ViewBag.Types = dbHelper.GetProductTypes();
+            ViewBag.Shelves = dbHelper.GetShelves();
             Product product = dbHelper.DetailProduct(id);
             ProductVM vm = new ProductVM()
             {
@@ -104,9 +108,10 @@ namespace QuanLySieuThiMini.Controllers
         [HttpPost]
         public IActionResult Update(ProductVM model)
         {
+            ViewBag.Types = dbHelper.GetProductTypes();
+            ViewBag.Shelves = dbHelper.GetShelves();
             if (ModelState.IsValid)
             {
-                ViewBag.Types = dbHelper.GetProductTypes();
                 Product pro = new Product()
                 {
                     proID = model.proID,

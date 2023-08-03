@@ -1,0 +1,29 @@
+﻿@model QuanLySieuThiMini.Models.Bill
+
+<h2>Checkout</h2>
+
+<p>Date: @Model.date</p>
+<p>Total Price: @Model.totalPrice</p>
+
+<h3>Bill Details</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Cost</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var billDetail in Model.BillDetails)
+        {
+            <tr>
+                <td>@billDetail.proName</td>
+                <td>@billDetail.quantity</td>
+                <td>@billDetail.cost</td>
+                <td>@(billDetail.cost*billDetail.quantity)</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -14,16 +14,11 @@ namespace QuanLySieuThiMini.Models
         {
         }
 
-        public int cartID { get; set; }
-        public Cart cart { get; set; }
-
         public int proID { get; set; }
         public Product product { get; set; }
-
+        public string proName { get; set; }
+        public int cost { get; set; }
         public int quantity { get; set; }
-        public void updateQuantity()
-        {
-        }
 
     }
 }

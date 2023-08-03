@@ -13,20 +13,6 @@ namespace QuanLySieuThiMini.Models
         {
         }
 
-        public void createAccount(User newUser)
-        {
-
-        }
-
-        public void deactiveAccount(int userID)
-        {
-
-        }
-
-        public bool checkExisted(User newUser)
-        {
-            return false;
-        }
 
     }
 }

@@ -14,5 +14,6 @@
         public int inventory { get; set; }
 
         public int shelfID { get; set; }
+        public string? shelfLocation { get; set;}
     }
 }
