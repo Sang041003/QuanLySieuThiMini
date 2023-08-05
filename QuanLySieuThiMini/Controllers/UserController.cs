@@ -15,18 +15,22 @@ namespace QuanLySieuThiMini.Controllers
         DBHelper dbHelper;
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly SignInManager<IdentityUser> signInManager;
 
-        public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ProductDBContext dbContext)
+        public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ProductDBContext dbContext, SignInManager<IdentityUser> signInManager)
         {
             dbHelper = new DBHelper(dbContext);
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.signInManager = signInManager;
         }
+        [Authorize(Roles ="Admin")]
         public IActionResult Index()
         {
             List<IdentityUser> users = dbHelper.GetIdentityUsers();
             return View(users);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -34,26 +38,32 @@ namespace QuanLySieuThiMini.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(IdentityUser userModel, string password)
         {
             if (ModelState.IsValid)
             {
-                var result = await userManager.CreateAsync(userModel, password);
+                if (dbHelper.EmaillExists(userModel.Email))
+                {
+                    var result = await userManager.CreateAsync(userModel, password);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        userModel.EmailConfirmed = true;
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
                     }
                 }
             }
             return View(userModel);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(string id)
         {
             if (id == null)
@@ -73,6 +83,7 @@ namespace QuanLySieuThiMini.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(string id, IdentityUser userModel, string? newPassword)
         {
             if (id != userModel.Id)
@@ -120,7 +131,7 @@ namespace QuanLySieuThiMini.Controllers
             return View(userModel);
         }
 
-        // GET: User/Disable/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Disable(string id)
         {
             if (id == null)
@@ -140,6 +151,7 @@ namespace QuanLySieuThiMini.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Disable(IdentityUser userModel)
         {
             var model = await userManager.FindByIdAsync(userModel.Id);
@@ -151,11 +163,47 @@ namespace QuanLySieuThiMini.Controllers
 
             await userManager.SetLockoutEndDateAsync(model, DateTimeOffset.MaxValue);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "User");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Enable(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = dbHelper.DetailUser(id);
+
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(userModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Enable(IdentityUser userModel)
+        {
+            var model = await userManager.FindByIdAsync(userModel.Id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            // Đặt thời gian chặn (lockout) về null để Enable người dùng
+            await userManager.SetLockoutEndDateAsync(model, null);
+
+            return RedirectToAction("Index","User");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddRole(string userId, string roleName)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -176,6 +224,7 @@ namespace QuanLySieuThiMini.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveRole(string userId, string roleName)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -193,6 +242,8 @@ namespace QuanLySieuThiMini.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -201,34 +252,31 @@ namespace QuanLySieuThiMini.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(LoginVM model)
         {
-            var user = await userManager.FindByEmailAsync(email);
-            if (user != null && await userManager.CheckPasswordAsync(user, password))
+            if (ModelState.IsValid)
             {
-                var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, email)
-        };
+                var user = await userManager.FindByEmailAsync(model.Email);
 
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                if (user != null)
+                {
+                    var result = await signInManager.PasswordSignInAsync(user, model.Password, false, lockoutOnFailure: false);
 
-                var principal = new ClaimsPrincipal(identity);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-                return RedirectToAction("Index","Home");
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home"); // Change "Home" to the appropriate controller and action after login
+                    }
+                }
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-            return View();
+            ModelState.AddModelError(string.Empty, "Invalid login attempt");
+            return View(model);
         }
 
         [AllowAnonymous]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await signInManager.SignOutAsync();
 
             return RedirectToAction("Login", "User");
         }

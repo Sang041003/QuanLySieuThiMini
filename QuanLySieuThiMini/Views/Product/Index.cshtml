@@ -196,7 +196,14 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Cost</th>
-                    <th>Inventory</th>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <th>Inventory</th>
+                    }
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <th>State</th>
+                    }
                     <th>Action</th>
                 </tr>
             </thead>
@@ -208,15 +215,35 @@
                         <td>@product.proName</td>
                         <td>@product.typeName</td>
                         <td>@product.cost</td>
-                        <td>@product.inventory</td>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <td>@product.inventory</td>
+                        }
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            @if(product.inventory>0)
+                            {
+                                <td>Còn hàng</td>
+                            }
+                            else
+                            {
+                                <td>Hết hàng</td>
+                            }
+                        }
                         <td>
                             <a asp-action="Detail" asp-controller="Product" asp-route-id="@product.proID" class="view"><i class="material-icons"></i></a>
-                            <a asp-action="Update" asp-controller="Product" asp-route-id="@product.proID" class="edit"><i class="material-icons"></i></a>
-                            <a asp-action="Delete" asp-controller="Product" asp-route-id="@product.proID" class="delete"><i class="material-icons"></i></a>
-                            <form method="post" asp-action="AddToCart" asp-controller="Cart">
-                                <input type="hidden"  name="productID" value="@product.proID" />
-                                <button type="submit" class="btn btn-primary">+</button>
-                            </form>
+                            @if(User.IsInRole("Editor")){
+                                <a asp-action="Update" asp-controller="Product" asp-route-id="@product.proID" class="edit"><i class="material-icons"></i></a>
+                                <a asp-action="Delete" asp-controller="Product" asp-route-id="@product.proID" class="delete"><i class="material-icons"></i></a>
+                            }
+                           
+                            @if (User.IsInRole("Seller"))
+                            {
+                                <form method="post" asp-action="AddToCart" asp-controller="Cart">
+                                    <input type="hidden" name="productID" value="@product.proID" />
+                                    <button type="submit" class="btn btn-primary">+</button>
+                                </form>
+                            }
                         </td>
                     </tr>
                 }
@@ -231,7 +258,10 @@
                     </li>
                 }
             </ul>
-            <a asp-action="Create" asp-controller="Product" class="btn btn-primary">Add</a>
+            @if (User.IsInRole("Editor"))
+            {
+                <a asp-action="Create" asp-controller="Product" class="btn btn-primary">Add</a>
+            }
         </div>
     </div>
 </div>

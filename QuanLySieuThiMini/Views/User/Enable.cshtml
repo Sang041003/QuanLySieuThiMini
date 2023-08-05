@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityUser
+
+<h2>Enable User</h2>
+
+<div>
+    <p>Are you sure you want to enable the user with Email: @Model.Email ?</p>
+    <form asp-action="Enable" asp-controller="User" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-success">Enable</button>
+        <a asp-action="Index" asp-controller="User" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

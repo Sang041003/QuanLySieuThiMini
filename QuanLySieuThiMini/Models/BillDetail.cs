@@ -15,7 +15,7 @@ namespace QuanLySieuThiMini.Models
         {
         }
 
-        public string billID { get; set; }
+        public int billID { get; set; }
         public Bill bill { get; set; }
 
         public string proName { get; set; }

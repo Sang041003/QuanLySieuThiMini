@@ -12,12 +12,13 @@ namespace QuanLySieuThiMini.Models
     {
         private readonly ProductDBContext _dbContext;
         private readonly IServiceProvider _serviceProvider;
-
+        private IServiceScope scope;
 
         public Cart(ProductDBContext dbContext, IServiceProvider serviceProvider)
         {
             _dbContext = dbContext;
             _serviceProvider = serviceProvider;
+            scope = _serviceProvider.CreateScope();
         }
         public string date { get; set; }
 
@@ -34,19 +35,17 @@ namespace QuanLySieuThiMini.Models
             }
             else
             {
-                using (var scope = _serviceProvider.CreateScope())
+                
+                var dbContext = scope.ServiceProvider.GetRequiredService<ProductDBContext>();
+                var product = dbContext.Products.FirstOrDefault(p => p.proID == productID);
+                var item = new CartDetail
                 {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<ProductDBContext>();
-                    var product = dbContext.Products.FirstOrDefault(p => p.proID == productID);
-                        var item = new CartDetail
-                        {
-                            proID = product.proID,
-                            proName = product.proName,
-                            cost = product.cost,
-                            quantity = 1
-                        };
-                        cartDetails.Add(item);
-                }
+                    proID = product.proID,
+                    proName = product.proName,
+                    cost = product.cost,
+                    quantity = 1
+                };
+                cartDetails.Add(item);
             }
         }
         public void UpdateQuantity(int productId, int newQuantity)
@@ -79,8 +78,7 @@ namespace QuanLySieuThiMini.Models
 
         public Bill checkout()
         {
-            // Create a new bill based on the cart details
-            var bill = new Bill
+            Bill bill = new Bill
             {
                 date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 totalPrice = cartDetails.Sum(cd => cd.cost * cd.quantity),
@@ -92,8 +90,7 @@ namespace QuanLySieuThiMini.Models
                     cost = cd.cost
                 }).ToList()
             };
-
-            // Clear the cart after checkout
+            
             clearCart();
 
             return bill;

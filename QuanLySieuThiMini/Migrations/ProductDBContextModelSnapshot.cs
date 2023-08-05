@@ -167,12 +167,10 @@ namespace QuanLySieuThiMini.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -209,12 +207,10 @@ namespace QuanLySieuThiMini.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -226,8 +222,11 @@ namespace QuanLySieuThiMini.Migrations
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Bill", b =>
                 {
-                    b.Property<string>("billID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("billID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("billID"));
 
                     b.Property<string>("date")
                         .IsRequired()
@@ -254,13 +253,16 @@ namespace QuanLySieuThiMini.Migrations
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.BillDetail", b =>
                 {
-                    b.Property<string>("billID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("billID")
+                        .HasColumnType("int");
 
                     b.Property<int>("proID")
                         .HasColumnType("int");
 
-                    b.Property<string>("billName")
+                    b.Property<int>("cost")
+                        .HasColumnType("int");
+
+                    b.Property<string>("proName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -286,6 +288,7 @@ namespace QuanLySieuThiMini.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("empAddress")
@@ -302,9 +305,6 @@ namespace QuanLySieuThiMini.Migrations
 
                     b.Property<string>("gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("posID")

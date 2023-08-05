@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using QuanLySieuThiMini.Models;
+using System.Data;
 
 namespace QuanLySieuThiMini.Controllers
 {
@@ -11,16 +13,20 @@ namespace QuanLySieuThiMini.Controllers
         {
             dbHelper = new DBHelper(dbContext);
         }
+
+        [Authorize(Roles = "Editor")]
         public IActionResult Index()
         {
             List<ProductTypeVM> list = dbHelper.GetProductTypeVM();
             return View(list);
         }
+        [Authorize(Roles = "Editor")]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Editor")]
         public IActionResult Create(ProductTypeVM productTypeVM)
         {
             if (ModelState.IsValid)
@@ -35,6 +41,7 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(productTypeVM);
         }
+        [Authorize(Roles = "Editor")]
         public IActionResult Update(string id)
         {
             ProductType cate = dbHelper.DetailProductType(id);
@@ -47,6 +54,7 @@ namespace QuanLySieuThiMini.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor")]
         public IActionResult Update(ProductTypeVM model)
         {
             if (ModelState.IsValid)
@@ -61,6 +69,7 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "Editor")]
         public IActionResult Delete(string id)
         {
             dbHelper.DeleteProductType(id);

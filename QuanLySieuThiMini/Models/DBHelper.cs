@@ -2,17 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Globalization;
 
 namespace QuanLySieuThiMini.Models
 {
     public class DBHelper
     {
         ProductDBContext dbContext;
-        private readonly UserManager<IdentityUser> userManager;
         public DBHelper(ProductDBContext dbContext)
         {
             this.dbContext = dbContext;
         }
+
         public List<IdentityUser> GetIdentityUsers()
         {
             return dbContext.Users.ToList();
@@ -24,6 +25,10 @@ namespace QuanLySieuThiMini.Models
         public List<ProductType> GetProductTypes()
         {
             return dbContext.ProductTypes.ToList();
+        }
+        public List<Bill> GetBills()
+        {
+            return dbContext.Bills.ToList();
         }
         public List<Employee> GetEmployees()
         {
@@ -53,7 +58,19 @@ namespace QuanLySieuThiMini.Models
         public void UpdateProduct(Product product)
         {
             dbContext.Products.Update(product);
-            dbContext.SaveChanges();
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    Console.WriteLine(innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+            }
         }
         public void DeleteProduct(int id)
         {
@@ -125,6 +142,30 @@ namespace QuanLySieuThiMini.Models
             dbContext.SaveChanges();
         }
 
+        public void InsertBill(Bill bill)
+        {
+            dbContext.Bills.Add(bill);
+            dbContext.SaveChanges();
+        }
+
+        public void InsertBillDetail(BillDetail billDetail)
+        {
+            dbContext.BillDetails.Add(billDetail);
+            try
+            {
+                dbContext.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                var innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    Console.WriteLine(innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+            }
+        }
+
         public IdentityUser DetailUser(string id)
         {
             return dbContext.Users.First(x => x.Id == id);
@@ -133,6 +174,11 @@ namespace QuanLySieuThiMini.Models
         public bool UserModelExists(string id)
         {
             return dbContext.Users.Any(x => x.Id == id);
+        }
+
+        public bool EmaillExists(string email)
+        {
+            return dbContext.Employees.Any(x => x.email == email);
         }
 
 
@@ -337,5 +383,6 @@ namespace QuanLySieuThiMini.Models
 
             return vm;
         }
+
     }
 }

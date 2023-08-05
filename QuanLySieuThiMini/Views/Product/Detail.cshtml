@@ -36,23 +36,43 @@
                     <th>Cost</th>
                     <td>@Model.cost</td>
                 </tr>
-                <tr>
-                    <th>Inventory</th>
-                    <td>@Model.inventory</td>
-                </tr>
-                <tr>
-                    <th>Shelf Location</th>
-                    <td>
-                        @foreach (var shelf in ViewBag.Shelves)
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <tr>
+                        <th>Inventory</th>
+                        <td>@Model.inventory</td>
+                    </tr>
+                }
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <tr>
+                        <th>State</th>
+                        @if (Model.inventory > 0)
                         {
-                            if (shelf.shelfID == Model.shelfID)
-                            {
-                                @shelf.shelfLocation
-                                break;
-                            }
+                            <td>Còn hàng</td>
                         }
-                    </td>
-                </tr>
+                        else
+                        {
+                            <td>Hết hàng</td>
+                        }
+                    </tr>
+                }
+                @if(User.IsInRole("Manager")||User.IsInRole("Storage Manager"))
+                {
+                    <tr>
+                        <th>Shelf Location</th>
+                        <td>
+                            @foreach (var shelf in ViewBag.Shelves)
+                            {
+                                if (shelf.shelfID == Model.shelfID)
+                                {
+                                    @shelf.shelfLocation
+                                    break;
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

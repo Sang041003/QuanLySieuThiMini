@@ -12,8 +12,8 @@ using QuanLySieuThiMini.Models;
 namespace QuanLySieuThiMini.Migrations
 {
     [DbContext(typeof(ProductDBContext))]
-    [Migration("20230731064035_alter2")]
-    partial class alter2
+    [Migration("20230805094130_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,8 +229,11 @@ namespace QuanLySieuThiMini.Migrations
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.Bill", b =>
                 {
-                    b.Property<string>("billID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("billID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("billID"));
 
                     b.Property<string>("date")
                         .IsRequired()
@@ -257,13 +260,16 @@ namespace QuanLySieuThiMini.Migrations
 
             modelBuilder.Entity("QuanLySieuThiMini.Models.BillDetail", b =>
                 {
-                    b.Property<string>("billID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("billID")
+                        .HasColumnType("int");
 
                     b.Property<int>("proID")
                         .HasColumnType("int");
 
-                    b.Property<string>("billName")
+                    b.Property<int>("cost")
+                        .HasColumnType("int");
+
+                    b.Property<string>("proName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

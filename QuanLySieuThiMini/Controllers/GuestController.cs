@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using QuanLySieuThiMini.Models;
 
 namespace QuanLySieuThiMini.Controllers
@@ -11,6 +12,7 @@ namespace QuanLySieuThiMini.Controllers
         {
             dbHelper = new DBHelper(dbContext);
         }
+        [Authorize(Roles ="Editor, Manager, Seller")]
         public IActionResult Index(int page = 1)
         {
             const int itemsPerPage = 6;
@@ -27,12 +29,14 @@ namespace QuanLySieuThiMini.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Editor, Seller")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor, Seller")]
         public IActionResult Create(GuestVM model)
         {
             if (ModelState.IsValid)
@@ -47,6 +51,8 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "Editor, Seller")]
         public IActionResult Update(string phone)
         {
             Guest guest = dbHelper.DetailGuest(phone);
@@ -59,6 +65,7 @@ namespace QuanLySieuThiMini.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor, Seller")]
         public IActionResult Update(GuestVM model)
         {
             if (ModelState.IsValid)
@@ -73,6 +80,8 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "Editor, Seller")]
         public IActionResult Delete(string phone)
         {
             dbHelper.DeleteGuest(phone);

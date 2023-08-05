@@ -26,7 +26,7 @@ else
                     <td>
                         <form asp-controller="Cart" asp-action="UpdateQuantity" method="post">
                             <input type="hidden" name="productId" value="@cartItem.proID" />
-                            <input type="number" name="newQuantity" value="@cartItem.quantity" />
+                            <input type="number" name="newQuantity"  value="@cartItem.quantity" required min="1" />
                             <button type="submit">Update</button>
                         </form>
                     </td>
@@ -42,6 +42,14 @@ else
 
     <div>
         <p>Total: @Model.cartDetails.Sum(cd => cd.quantity * cd.cost)</p>
-        <a asp-action="Checkout">Checkout</a>
+        <form asp-controller="Cart" asp-action="Checkout" method="post">
+            <label for="empID">Employee ID:</label>
+            <input type="text" name="empID" required />
+            <br />
+            <label for="guestPhone">Guest Phone:</label>
+            <input type="text" name="guestPhone" required />
+            <br />
+            <button type="submit">Checkout</button>
+        </form>
     </div>
 }

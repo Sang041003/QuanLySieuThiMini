@@ -209,8 +209,11 @@
                         <td>@emp.empPhone</td>
                         <td>
                             <a asp-action="Detail" asp-controller="Employee" asp-route-id="@emp.empID" class="view"><i class="material-icons"></i></a>
-                            <a asp-action="Update" asp-controller="Employee" asp-route-id="@emp.empID" class="edit"><i class="material-icons"></i></a>
-                            <a asp-action="Delete" asp-controller="Employee" asp-route-id="@emp.empID" class="delete"><i class="material-icons"></i></a>
+                            @if (User.IsInRole("Editor"))
+                            {
+                                <a asp-action="Update" asp-controller="Employee" asp-route-id="@emp.empID" class="edit"><i class="material-icons"></i></a>
+                                <a asp-action="Delete" asp-controller="Employee" asp-route-id="@emp.empID" class="delete"><i class="material-icons"></i></a>
+                            }
                         </td>
                     </tr>
                 }
@@ -225,7 +228,10 @@
                     </li>
                 }
             </ul>
-            <a asp-action="Create" asp-controller="Employee" class="btn btn-primary">Add</a>
+            @if (User.IsInRole("Editor"))
+            {
+                <a asp-action="Create" asp-controller="Employee" class="btn btn-primary">Add</a>
+            }
         </div>
     </div>
 </div>

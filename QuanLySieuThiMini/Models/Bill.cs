@@ -15,7 +15,7 @@ namespace QuanLySieuThiMini.Models
         }
 
         [Key]
-        public string billID { get; set; }
+        public int billID { get; set; }
 
         public string date { get; set; }
 
@@ -29,7 +29,7 @@ namespace QuanLySieuThiMini.Models
         public int empID { get; set; }
         public Employee Employee { get; set; }
 
-        public ICollection<BillDetail> BillDetails { get; set; } = new List<BillDetail>();
+        public List<BillDetail> BillDetails { get; set; }
 
         public void saveBill()
         {

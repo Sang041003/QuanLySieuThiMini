@@ -1,5 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityUser
+
+<h2>Disable User</h2>
+
+<div>
+    <p>Are you sure you want to disable the user with Email: @Model.Email ?</p>
+    <form asp-action="Disable" asp-controller="User" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Disable</button>
+        <a asp-action="Index" asp-controller="User" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

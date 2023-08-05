@@ -27,9 +27,7 @@ namespace QuanLySieuThiMini.Models
 
         public string empPhone { get; set; }
 
-        public string? email { get; set; }
-
-        public string? password { get; set; }
+        public string email { get; set; }
 
 
         [ForeignKey("Position")]

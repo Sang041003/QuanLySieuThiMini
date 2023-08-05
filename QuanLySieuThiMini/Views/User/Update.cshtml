@@ -1,28 +1,31 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IdentityUser
 
-<h2>Update User</h2>
+<div>
+    <h2>Update User</h2>
 
-<form asp-action="Update" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label for="UserName">Username</label>
-        <input type="text" class="form-control" asp-for="UserName" />
-        <span asp-validation-for="UserName"></span>
-    </div>
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input type="email" class="form-control" asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div class="form-group">
-        <label for="NewPassword">New Password</label>
-        <input type="password" class="form-control" name="newPassword" />
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+    <form asp-action="Update" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label for="UserName">Username</label>
+            <input type="text" class="form-control" asp-for="UserName" />
+            <span asp-validation-for="UserName"></span>
+        </div>
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label for="NewPassword">New Password</label>
+            <input type="password" class="form-control" name="newPassword" />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
 
-<a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
+</div>
+
 
 
 

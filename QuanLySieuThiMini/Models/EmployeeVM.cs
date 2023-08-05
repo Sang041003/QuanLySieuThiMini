@@ -12,8 +12,7 @@
 
         public string empAddress { get; set; }
 
-        public string? email { get; set; }
-        public string? password { get; set; }
+        public string email { get; set; }
         public string empPhone { get; set; }
         public string posID { get; set; }
         public string? posName { get; set; }

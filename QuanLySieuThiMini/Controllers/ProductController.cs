@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using QuanLySieuThiMini.Models;
 using System.Runtime.InteropServices;
@@ -61,6 +62,8 @@ namespace QuanLySieuThiMini.Controllers
             };
             return View(vm);
         }
+
+        [Authorize(Roles ="Editor")]
         public IActionResult Create()
         {
             ViewBag.Types = dbHelper.GetProductTypes();
@@ -69,6 +72,7 @@ namespace QuanLySieuThiMini.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor")]
         public IActionResult Create(ProductVM model)
         {
             ViewBag.Types = dbHelper.GetProductTypes();
@@ -88,6 +92,8 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "Editor")]
         public IActionResult Update(int id)
         {
             ViewBag.Types = dbHelper.GetProductTypes();
@@ -106,6 +112,7 @@ namespace QuanLySieuThiMini.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor")]
         public IActionResult Update(ProductVM model)
         {
             ViewBag.Types = dbHelper.GetProductTypes();
@@ -126,6 +133,7 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "Editor")]
         public IActionResult Delete(int id)
         {
             dbHelper.DeleteProduct(id);

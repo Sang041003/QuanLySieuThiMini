@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuanLySieuThiMini.Models;
 
@@ -16,6 +17,7 @@ namespace QuanLySieuThiMini.Controllers
             this.userManager = userManager;
             this.roleManager = roleManager;
         }
+        [Authorize(Roles = "Admin, Editor, Manager")]
         public IActionResult Index(int page = 1)
         {
             ViewBag.Positions = dbHelper.GetPositions();
@@ -33,6 +35,7 @@ namespace QuanLySieuThiMini.Controllers
             return View(vm);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Editor, Manager")]
         public IActionResult Index(string? searchString, string posID , int page = 1)
         {
             ViewBag.Positions = dbHelper.GetPositions();
@@ -47,6 +50,8 @@ namespace QuanLySieuThiMini.Controllers
             ViewData["CurrentPage"] = page;
             return View(vm);
         }
+
+        [Authorize(Roles = "Admin, Editor, Manager")]
         public IActionResult Detail(int id)
         {
             Employee emp = dbHelper.DetailEmployee(id);
@@ -64,6 +69,8 @@ namespace QuanLySieuThiMini.Controllers
             };
             return View(vm);
         }
+
+        [Authorize(Roles = "Editor")]
         public IActionResult Create()
         {
             ViewBag.Positions = dbHelper.GetPositions();
@@ -71,6 +78,7 @@ namespace QuanLySieuThiMini.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor")]
         public IActionResult Create(EmployeeVM model)
         {
             ViewBag.Positions = dbHelper.GetPositions();
@@ -92,6 +100,8 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "Editor")]
         public IActionResult Update(int id)
         {
             ViewBag.Positions = dbHelper.GetPositions();
@@ -111,6 +121,7 @@ namespace QuanLySieuThiMini.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Editor")]
         public IActionResult Update(EmployeeVM model)
         {
             ViewBag.Positions = dbHelper.GetPositions();
@@ -132,6 +143,8 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(model);
         }
+
+        [Authorize(Roles = "Editor")]
         public IActionResult Delete(int id)
         {
             dbHelper.DeleteEmployee(id);

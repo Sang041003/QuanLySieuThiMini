@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h1>Statistics</h1>
+
+<form method="get">
+    <label for="startDate">Start Date:</label>
+    <input type="date" name="startDate" value="@ViewBag.StartDate" />
+
+    <label for="endDate">End Date:</label>
+    <input type="date" name="endDate" value="@ViewBag.EndDate" />
+
+    <input type="submit" value="Filter" />
+</form>
+
+<p>Total Revenue: @ViewBag.TotalRevenue</p>
+
+<h2>Revenue by Date:</h2>
+<ul>
+    @foreach (var item in ViewBag.RevenueByDate)
+    {
+        <li>@item.Key: @item.Value</li>
+    }
+</ul>

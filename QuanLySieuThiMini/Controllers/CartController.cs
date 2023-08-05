@@ -1,18 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuanLySieuThiMini.Models;
 
 namespace QuanLySieuThiMini.Controllers
 {
+    [Authorize(Roles = "Seller")]
     public class CartController : Controller
     {
         private readonly CartService _cartService;
         private readonly IServiceProvider _serviceProvider;
+        DBHelper _dbHelper;
 
-        public CartController(CartService cartService, IServiceProvider serviceProvider)
+        public CartController(CartService cartService, IServiceProvider serviceProvider, DBHelper dbHelper)
         {
             _cartService = cartService;
             _serviceProvider = serviceProvider;
+            _dbHelper = dbHelper;
         }
 
         public IActionResult AddToCart(int productID)
@@ -45,12 +50,32 @@ namespace QuanLySieuThiMini.Controllers
             return View(cart);
         }
 
-        public IActionResult Checkout()
+        [HttpPost]
+        public IActionResult Checkout(int empID, string guestPhone)
         {
             var cart = _cartService.GetCart();
-            var bill = cart.checkout();
-            _cartService.ClearCart();
-            return View(bill);
+            if(_dbHelper.DetailEmployee(empID)!=null && _dbHelper.DetailGuest(guestPhone) != null)
+            {
+                Bill bill = cart.checkout();
+                bill.empID = empID;
+                bill.guestPhone = guestPhone;
+                _dbHelper.InsertBill(bill);
+                foreach (BillDetail billDetail in bill.BillDetails.ToList())
+                {
+                    var product = _dbHelper.DetailProduct(billDetail.proID);
+
+                    if (product != null && product.inventory >= billDetail.quantity)
+                    {
+                        product.inventory -= billDetail.quantity;
+                        _dbHelper.UpdateProduct(product);
+                    }
+
+                    _dbHelper.InsertBillDetail(billDetail);
+                }
+                _cartService.ClearCart();
+                return View(bill);
+            }
+            return View();
         }
     }
 }
