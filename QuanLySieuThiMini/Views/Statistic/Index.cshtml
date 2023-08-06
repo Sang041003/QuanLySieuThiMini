@@ -1,25 +1,39 @@
-﻿@{
-    ViewData["Title"] = "Statistics";
-}
+﻿@model List<BillStatisticsVM>
 
-<h1>Statistics</h1>
+<h2>Revenue By Date Range</h2>
 
-<form method="get">
+<form method="post" asp-action="Index" asp-controller="Statistic">
     <label for="startDate">Start Date:</label>
-    <input type="date" name="startDate" value="@ViewBag.StartDate" />
-
+    <input type="date" id="startDate" name="startDate" required>
+    <br>
     <label for="endDate">End Date:</label>
-    <input type="date" name="endDate" value="@ViewBag.EndDate" />
-
-    <input type="submit" value="Filter" />
+    <input type="date" id="endDate" name="endDate" required>
+    <br>
+    <button type="submit" class="btn-primary">Get Statistics</button>
 </form>
-
-<p>Total Revenue: @ViewBag.TotalRevenue</p>
-
-<h2>Revenue by Date:</h2>
-<ul>
-    @foreach (var item in ViewBag.RevenueByDate)
-    {
-        <li>@item.Key: @item.Value</li>
-    }
-</ul>
+<h2>Details</h2>
+@if (Model != null && Model.Any())
+{
+    <p>Sum Total = @Model.Sum(item => item.TotalPrice)</p>
+    <table>
+        <thead>
+            <tr>
+                <th style="padding-left:50px">Date</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="padding-right:20px">@item.Date</td>
+                    <td style="padding-left:20px">@item.TotalPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No data to display.</p>
+}

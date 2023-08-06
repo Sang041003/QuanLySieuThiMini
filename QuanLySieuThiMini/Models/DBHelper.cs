@@ -58,19 +58,7 @@ namespace QuanLySieuThiMini.Models
         public void UpdateProduct(Product product)
         {
             dbContext.Products.Update(product);
-            try
-            {
-                dbContext.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                var innerException = ex.InnerException;
-                while (innerException != null)
-                {
-                    Console.WriteLine(innerException.Message);
-                    innerException = innerException.InnerException;
-                }
-            }
+            dbContext.SaveChanges();
         }
         public void DeleteProduct(int id)
         {
@@ -371,6 +359,43 @@ namespace QuanLySieuThiMini.Models
             }
 
             return vm;
+        }
+
+        public List<BillStatistics> GetRevenueByDateRange(string startDate, string endDate)
+        {
+            DateTime startDateTime, endDateTime;
+
+            // Convert startDate and endDate strings to DateTime objects
+            if (!DateTime.TryParse(startDate, out startDateTime) || !DateTime.TryParse(endDate, out endDateTime))
+            {
+                // Handle invalid date format
+                throw new ArgumentException("Invalid date format. Please use a valid date format.");
+            }
+            endDateTime = endDateTime.AddDays(1);
+
+            // Assuming dbContext is your database context instance
+            var billsInDateRange = dbContext.Bills
+                .ToList()
+                .Where(b =>
+                {
+                    if (DateTime.TryParse(b.date, out DateTime billDate))
+                    {
+                        return billDate >= startDateTime && billDate <= endDateTime;
+                    }
+                    return false;
+                })
+                .ToList();
+
+            var revenueByDateRange = billsInDateRange
+                .GroupBy(b => b.date)
+                .Select(g => new BillStatistics
+                {
+                    Date = g.Key,
+                    TotalPrice = g.Sum(b => b.totalPrice)
+                })
+                .ToList();
+
+            return revenueByDateRange;
         }
 
     }

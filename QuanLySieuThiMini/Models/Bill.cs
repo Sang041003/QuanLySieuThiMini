@@ -31,12 +31,5 @@ namespace QuanLySieuThiMini.Models
 
         public List<BillDetail> BillDetails { get; set; }
 
-        public void saveBill()
-        {
-        }
-
-        public void printBill()
-        {
-        }
     }
 }

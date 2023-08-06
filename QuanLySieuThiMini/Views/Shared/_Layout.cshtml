@@ -152,7 +152,7 @@
                                 </a>
                             </li>
                         }
-                       @* @if (User.IsInRole("Manager"))
+                       @if (User.IsInRole("Manager"))
                         {
                             <li class="nav-item">
                                 <a asp-controller="Statistic" asp-action="Index" class="nav-link">
@@ -162,7 +162,7 @@
                                     </p>
                                 </a>
                             </li>
-                        }*@
+                        }
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -171,7 +171,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="min-height:100vh; display:flex; align-items:center; justify-content:center;flex-direction: column">
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->
