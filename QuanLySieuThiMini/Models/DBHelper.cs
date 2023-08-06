@@ -151,19 +151,8 @@ namespace QuanLySieuThiMini.Models
         public void InsertBillDetail(BillDetail billDetail)
         {
             dbContext.BillDetails.Add(billDetail);
-            try
-            {
-                dbContext.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                var innerException = ex.InnerException;
-                while (innerException != null)
-                {
-                    Console.WriteLine(innerException.Message);
-                    innerException = innerException.InnerException;
-                }
-            }
+            dbContext.SaveChanges();
+            
         }
 
         public IdentityUser DetailUser(string id)

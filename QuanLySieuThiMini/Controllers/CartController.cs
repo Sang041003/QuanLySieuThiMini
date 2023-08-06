@@ -69,8 +69,6 @@ namespace QuanLySieuThiMini.Controllers
                         product.inventory -= billDetail.quantity;
                         _dbHelper.UpdateProduct(product);
                     }
-
-                    _dbHelper.InsertBillDetail(billDetail);
                 }
                 _cartService.ClearCart();
                 return View(bill);
