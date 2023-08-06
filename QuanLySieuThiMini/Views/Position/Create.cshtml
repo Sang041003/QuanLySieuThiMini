@@ -1,0 +1,17 @@
+﻿@model PositionVM
+
+<h2>Add Postion</h2>
+
+<form method="post" asp-controller="Position" asp-action="Create">
+    <div class="form-group col-md-4">
+        <label for="posID">ID</label>
+        <input type="text" asp-for="posID" required pattern="^(?=.*[A-Za-z])[A-Za-z0-9]+$" class="form-control" />
+    </div>
+    <div class="form-group col-md-16">
+        <label for="posName">Position Name</label>
+        <input type="text" asp-for="posName" required pattern="^(?=.*[A-Za-z])[A-Za-z0-9 ]+$" class="form-control" />
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

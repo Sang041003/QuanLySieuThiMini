@@ -110,6 +110,30 @@
                             </li>
                         }
 
+                        @if (User.IsInRole("Editor"))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Position" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-icons"></i>
+                                    <p>
+                                        Positions
+                                    </p>
+                                </a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Editor"))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Shelf" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-icons"></i>
+                                    <p>
+                                        Shelves
+                                    </p>
+                                </a>
+                            </li>
+                        }
+
                         @if (User.IsInRole("Manager") || User.IsInRole("Editor") || User.IsInRole("Admin")){
                             <li class="nav-item">
                                 <a asp-controller="Employee" asp-action="Index" class="nav-link">

@@ -1,0 +1,13 @@
+﻿@model ShelfVM
+
+<h2>Update Shelf</h2>
+
+<form method="post" asp-controller="Shelf" asp-action="Update">
+    <input type="hidden" asp-for="shelfID" />
+    <div class="form-group col-md-16">
+        <label for="shelfLocation">Location</label>
+        <input type="text" asp-for="shelfLocation" required pattern="^(?=.*[A-Za-z])[A-Za-z0-9 ]+$" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

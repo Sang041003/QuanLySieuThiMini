@@ -88,6 +88,48 @@ namespace QuanLySieuThiMini.Models
             dbContext.SaveChanges();
         }
 
+        public Position DetailPosition(string id)
+        {
+            return dbContext.Positions.First(x => x.posID == id);
+        }
+        public void InsertPosition(Position pos)
+        {
+            dbContext.Positions.Add(pos);
+            dbContext.SaveChanges();
+        }
+        public void UpdatePosition(Position pos)
+        {
+            dbContext.Positions.Update(pos);
+            dbContext.SaveChanges();
+        }
+        public void DeletePosition(string id)
+        {
+            Position pos = DetailPosition(id);
+            dbContext.Positions.Remove(pos);
+            dbContext.SaveChanges();
+        }
+
+        public Shelf DetailShelf(int id)
+        {
+            return dbContext.Shelves.First(x => x.shelfID == id);
+        }
+        public void InsertShelf(Shelf shelf)
+        {
+            dbContext.Shelves.Add(shelf);
+            dbContext.SaveChanges();
+        }
+        public void UpdateShelf(Shelf shelf)
+        {
+            dbContext.Shelves.Update(shelf);
+            dbContext.SaveChanges();
+        }
+        public void DeleteShelf(int id)
+        {
+            Shelf shelf = DetailShelf(id);
+            dbContext.Shelves.Remove(shelf);
+            dbContext.SaveChanges();
+        }
+
         public Employee DetailEmployee(int id)
         {
             return dbContext.Employees.First(x => x.empID == id);
@@ -398,5 +440,34 @@ namespace QuanLySieuThiMini.Models
             return revenueByDateRange;
         }
 
+        public List<PositionVM> GetPositionVM()
+        {
+            List<PositionVM> posVM = new List<PositionVM>();
+            List<Position> positions = dbContext.Positions.ToList();
+            foreach (var pos in positions)
+            {
+                posVM.Add(new PositionVM()
+                {
+                    posID = pos.posID,
+                    posName = pos.posName
+                });
+            }
+            return posVM;
+        }
+
+        public List<ShelfVM> GetShelfVM()
+        {
+            List<ShelfVM> shelfVM = new List<ShelfVM>();
+            List<Shelf> shelves = dbContext.Shelves.ToList();
+            foreach (var shelf in shelves)
+            {
+                shelfVM.Add(new ShelfVM()
+                {
+                    shelfID = shelf.shelfID,
+                    shelfLocation = shelf.shelfLocation
+                });
+            }
+            return shelfVM;
+        }
     }
 }

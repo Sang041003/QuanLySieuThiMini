@@ -266,10 +266,17 @@ namespace QuanLySieuThiMini.Controllers
                     {
                         return RedirectToAction("Index", "Home"); // Change "Home" to the appropriate controller and action after login
                     }
+                    else
+                    {
+                        ModelState.AddModelError("", "Sai Password.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Email không tồn tại.");
                 }
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid login attempt");
             return View(model);
         }
 
