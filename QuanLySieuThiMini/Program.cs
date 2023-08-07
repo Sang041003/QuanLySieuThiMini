@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
        .AddCookie(options =>
        {
            options.LoginPath = "/User/Login";
-           options.LogoutPath = "/User/Logout"; ;
+           options.LogoutPath = "/User/Logout";
        });
 
 builder.Services.AddScoped<RoleManager<IdentityRole>>();

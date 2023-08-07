@@ -41,6 +41,10 @@ else
     </table>
 
     <div>
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <p style="color: red;">@ViewBag.ErrorMessage</p>
+        }
         <p>Total: @Model.cartDetails.Sum(cd => cd.quantity * cd.cost)</p>
         <form asp-controller="Cart" asp-action="Checkout" method="post">
             <label for="empID">Employee ID:</label>

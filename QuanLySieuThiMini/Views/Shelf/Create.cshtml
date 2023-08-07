@@ -1,9 +1,9 @@
 ﻿@model ShelfVM
 
-<h2>Add Postion</h2>
+<h2>Add Shelf</h2>
 
 <form method="post" asp-controller="Shelf" asp-action="Create">
-    <div class="form-group col-md-4">
+    <div class="form-group">
         <label for="posName">Location</label>
         <input type="text" asp-for="shelfLocation" required pattern="^(?=.*[A-Za-z])[A-Za-z0-9 ]+$" class="form-control" />
     </div>

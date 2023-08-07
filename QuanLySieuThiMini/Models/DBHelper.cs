@@ -407,15 +407,12 @@ namespace QuanLySieuThiMini.Models
         {
             DateTime startDateTime, endDateTime;
 
-            // Convert startDate and endDate strings to DateTime objects
             if (!DateTime.TryParse(startDate, out startDateTime) || !DateTime.TryParse(endDate, out endDateTime))
             {
-                // Handle invalid date format
                 throw new ArgumentException("Invalid date format. Please use a valid date format.");
             }
             endDateTime = endDateTime.AddDays(1);
 
-            // Assuming dbContext is your database context instance
             var billsInDateRange = dbContext.Bills
                 .ToList()
                 .Where(b =>

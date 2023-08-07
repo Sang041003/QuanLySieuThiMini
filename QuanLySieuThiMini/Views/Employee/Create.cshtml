@@ -5,17 +5,17 @@
     <h2>Add Employee</h2>
 
     <form method="post" asp-controller="Employee" asp-action="Create">
-        <div class="form-group col-md-4">
+        <div class="form-group">
             <label for="empName">Name</label>
             <input type="text" asp-for="empName" required pattern="^[A-Za-zÀ-ÿ\s]+$" class="form-control" />
         </div>
 
-        <div class="form-group col-md-2">
+        <div class="form-group">
             <label for="age">Age</label>
             <input type="number" asp-for="age" class="form-control" required min="18" max="65" />
         </div>
 
-        <div class="form-group col-md-2">
+        <div class="form-group">
             <label for="gender">Gender</label>
             <select asp-for="gender" class="form-control" required>
                 <option value="Nam">Nam</option>
@@ -23,22 +23,22 @@
             </select>
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group">
             <label for="empPhone">Phone</label>
             <input type="text" asp-for="empPhone" pattern="^\d{10}$" class="form-control" required maxlength="10" />
         </div>
 
-        <div class="form-group col-md-8">
+        <div class="form-group">
             <label for="email">Email</label>
             <input type="email" asp-for="email" class="form-control" required />
         </div>
 
-        <div class="form-group col-md-8">
+        <div class="form-group">
             <label for="empAddress">Address</label>
             <input type="text" asp-for="empAddress" pattern="^[A-Za-zÀ-ÿ0-9\s]+$" class="form-control" required />
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group">
             <label for="posID">Position</label>
             <select asp-for="posID" class="form-control" required>
                 @foreach (var pos in ViewBag.Positions)

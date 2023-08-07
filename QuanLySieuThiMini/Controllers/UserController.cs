@@ -63,7 +63,7 @@ namespace QuanLySieuThiMini.Controllers
             }
             return View(userModel);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public IActionResult Update(string id)
         {
             if (id == null)
@@ -83,7 +83,7 @@ namespace QuanLySieuThiMini.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> Update(string id, IdentityUser userModel, string? newPassword)
         {
             if (id != userModel.Id)

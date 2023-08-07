@@ -73,7 +73,11 @@ namespace QuanLySieuThiMini.Controllers
                 _cartService.ClearCart();
                 return View(bill);
             }
-            return View();
+            else
+            {
+                ViewBag.ErrorMessage = "Invalid Employee ID or Guest Phone.";
+                return View();
+            }
         }
     }
 }

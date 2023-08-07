@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLySieuThiMini.Models;
 
 namespace QuanLySieuThiMini.Controllers
 {
+    [Authorize(Roles ="Manager")]
     public class StatisticController : Controller
     {
         DBHelper dbHelper;
-        ProductDBContext context;
 
-        public StatisticController(DBHelper dbHelper, ProductDBContext context)
+        public StatisticController(DBHelper dbHelper)
         {
             this.dbHelper = dbHelper;
-            this.context = context;
         }
         public ActionResult Index()
         {
@@ -27,7 +27,6 @@ namespace QuanLySieuThiMini.Controllers
                 Date = stat.Date,
                 TotalPrice = stat.TotalPrice
             }).ToList();
-
             return View(viewModel);
         }
 

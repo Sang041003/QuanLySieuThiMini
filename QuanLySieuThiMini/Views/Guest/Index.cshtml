@@ -175,8 +175,8 @@
         <table class="table table-striped table-hover table-bordered">
             <thead>
                 <tr>
-                    <th>Name</th>
                     <th>Phone</th>
+                    <th>Name</th>
                 </tr>
             </thead>
             <tbody>
@@ -202,7 +202,10 @@
                     </li>
                 }
             </ul>
-            <a asp-action="Create" asp-controller="Guest" class="btn btn-primary">Add</a>
+            @if (User.IsInRole("Editor"))
+            {
+                <a asp-action="Create" asp-controller="Guest" class="btn btn-primary">Add</a>
+            }
         </div>
     </div>
 </div>
